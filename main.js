@@ -27,20 +27,21 @@ function getData(){
 function displayData(response){
     if (response.cod =="200"){
         const city = document.querySelector(".city")
-        city.innerText = `${response.name}, ${response.sys.country}`
+        city.innerText = ` ${response.name}, ${response.sys.country}`
 
-        const today = new Date()
+        let today = new Date()
         const date = document.querySelector(".date")
         date.innerText = dateFunction(today)
 
-
+        const time = document.querySelector(".time")
+        time.innerHTML = timeFunction(today)
 
         const temp = document.querySelector(".temp")
         temp.innerHTML = `Temp: ${Math.round(response.main.temp)} 
         <span>&#8451;</span>`
 
         const weather = document.querySelector(".weather")
-        weather.innerText = `weather: ${response.weather[0].main}`
+        weather.innerText = `Weather: ${response.weather[0].main}`
 
         const tempRange = document.querySelector(".temp-range")
         tempRange.innerText = `
@@ -55,7 +56,7 @@ function displayData(response){
 
     } else{
         const error = document.querySelector(".error")
-        error.textContent = "Please enter a valid city"
+        error.textContent = "Please Enter a valid City"
         search.value = ""
 
         
@@ -80,3 +81,17 @@ function dateFunction(d){
     return `${day}, ${date} ${month} ${year}`
 }
 
+function timeFunction(now) {
+    let hours = now.getHours().toString().padStart(2, "0")
+    let minutes = now.getMinutes().toString().padStart(2, "0")
+    let seconds = now.getSeconds().toString().padStart(2, "0")
+
+    let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // If the hour is 0, set it to 12
+
+
+    return ` ${hours}:${minutes}:${seconds} ${ampm}`
+  }
+
+setInterval(timeFunction, 1000);
